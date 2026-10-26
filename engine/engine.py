@@ -9,7 +9,8 @@ import numpy as np
 import pandas as pd
 
 from .config import (CHANNELS, WINDOW, Z_ANOM, PERSIST_RATIO, EMERGING_RATIO, SEVERE_Z,
-                     MIN_COVERAGE, MIN_VALID, HOLD, DECISIONS, ACTIONS, SAMPLES_PER_MIN, SIGNAL_COLS)
+                     MIN_COVERAGE, MIN_VALID, HOLD, DECISIONS, ACTIONS, SAMPLES_PER_MIN, SIGNAL_COLS,
+                     ENGINE_ON_RPM)
 from .quality import clean, add_features
 from .baseline import VehicleBaseline
 
@@ -23,7 +24,27 @@ def _run_length(b: pd.Series) -> pd.Series:
 
 
 def timeline(df: pd.DataFrame, baseline: VehicleBaseline) -> pd.DataFrame:
-    """Score every row. Returns one row per input row with decision, risk, confidence, per-channel stats."""
+    """Score every row. Returns one row per input row with decision, risk, confidence, per-channel stats.
+
+    Engine-off rows (rpm below ENGINE_ON_RPM) are not judged: a parked vehicle is not a fault.
+    They carry the last assessment made while the engine was running and are flagged `engine_off`.
+    """
+    rpm = pd.to_numeric(df["rpm"], errors="coerce") if "rpm" in df else pd.Series(np.nan, index=df.index)
+    off = (rpm < ENGINE_ON_RPM).values
+    if not off.any() or off.all():
+        out = _score(df, baseline)
+        out["engine_off"] = off
+        return out
+    core = _score(df.loc[~off], baseline)
+    out = core.reindex(df.index).ffill().bfill()
+    out["engine_off"] = off
+    if "timestamp" in df:
+        out["timestamp"] = df["timestamp"].values
+    out["level"] = out["level"].astype(int)
+    return out
+
+
+def _score(df: pd.DataFrame, baseline: VehicleBaseline) -> pd.DataFrame:
     raw = add_features(clean(df))
     dev = baseline.deviations(raw)
     out = pd.DataFrame(index=raw.index)
@@ -132,6 +153,8 @@ def timeline(df: pd.DataFrame, baseline: VehicleBaseline) -> pd.DataFrame:
 def explain(row: pd.Series) -> list:
     """Human-readable evidence for one timeline row."""
     ev = []
+    if bool(row.get("engine_off", False)):
+        ev.append("Engine off — showing the last assessment from when it was running.")
     if row["level"] == -1:
         return [f"Only {row['coverage']:.0%} of the last 5 min has telemetry — device or connection issue."]
     for ch, spec in CHANNELS.items():
@@ -166,7 +189,7 @@ def explain(row: pd.Series) -> list:
             ev.append(f"Short {spec['label'].lower()} spikes ({ratio:.0%} of last 5 min) — transient, not persistent; no action.")
     if row["n_persistent"] >= 2:
         ev.append(f"{int(row['n_persistent'])} independent signals agree — corroborated evidence.")
-    if not ev:
+    if not ev or ev == ["Engine off — showing the last assessment from when it was running."]:
         ev.append("All signals within this vehicle's normal range for current conditions.")
     return ev
 

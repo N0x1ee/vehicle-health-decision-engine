@@ -54,6 +54,18 @@ ul.ev li{margin:3px 0}
 .strip span{flex:1}
 .note{font-size:11px;color:var(--muted);margin-top:10px}
 .scen{font-size:12px;color:var(--muted);margin:-6px 0 10px}
+.eng{display:inline-block;font-size:11px;font-weight:600;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.eng.on{color:var(--ok);border-color:var(--ok)}
+.os{color:var(--high);font-weight:600}
+.today{margin:4px 0 14px}
+.today .big{gap:18px;margin:6px 0 10px}
+.today .kpi .n{font-size:18px}
+.tbl{width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums}
+.tbl th{text-align:left;color:var(--muted);font-weight:600;border-bottom:1px solid var(--line);padding:4px 6px}
+.tbl td{border-bottom:1px solid var(--line);padding:4px 6px}
+.tblwrap{overflow-x:auto}
+main>section{min-width:0}
+.chart.wide{grid-column:1/-1}
 </style>
 </head>
 <body>
@@ -83,6 +95,32 @@ let selected=null, timer=null, charts={};
 
 async function api(p,opt){const r=await fetch(p,opt);if(!r.ok)throw new Error(await r.text());return r.json();}
 
+const hm=t=>t?t.slice(11,16):"–";
+function engChip(e){
+  if(!e||!e.state)return "";
+  if(e.state==="on")return `<span class="eng on">Engine on</span>`;
+  if(e.state==="off")return `<span class="eng">Engine off since ${hm(e.since)}</span>`;
+  return `<span class="eng">No data since ${hm(e.since)}</span>`;
+}
+const REASON={engine_off:"engine off",data_gap:"data lost",ongoing:"ongoing"};
+function todayBlock(v){
+  const t=v.today; if(!t)return "";
+  const rows=(v.trips||[]).map(x=>`<tr><td>${x.trip}</td><td>${hm(x.start)}–${hm(x.end)}</td><td>${x.duration_min} min</td><td>${x.distance_km}</td><td>${x.max_speed_kmh??"–"}</td><td>${x.idle_min} min</td><td>${x.overspeed_events?`<span class="os">${x.overspeed_events} (${Math.round(x.overspeed_s/60)} min)</span>`:"0"}</td><td>${x.max_coolant_c??"–"}</td><td>${REASON[x.end_reason]||x.end_reason}</td></tr>`).join("");
+  const os=(v.overspeed||[]).map(o=>`<li>${hm(o.start)}–${hm(o.end)}: ${Math.round(o.duration_s/60*10)/10} min over ${o.limit_kmh} km/h, max ${o.max_speed_kmh} km/h</li>`).join("");
+  return `<div class="today"><b>Today</b> ${engChip(v.engine)}
+    <div class="big">
+      <div class="kpi"><div class="n">${t.trips}</div><div class="l">Trips</div></div>
+      <div class="kpi"><div class="n">${t.distance_km}</div><div class="l">km</div></div>
+      <div class="kpi"><div class="n">${t.engine_hours}</div><div class="l">Engine hours</div></div>
+      <div class="kpi"><div class="n">${t.idle_pct}%</div><div class="l">Idling</div></div>
+      <div class="kpi"><div class="n ${t.overspeed_events?"os":""}">${t.overspeed_events}</div><div class="l">Overspeed (&gt;${t.limit_kmh} km/h)</div></div>
+      <div class="kpi"><div class="n">${t.max_speed_kmh??"–"}</div><div class="l">Max km/h</div></div>
+    </div>
+    ${rows?`<div class="tblwrap"><table class="tbl"><thead><tr><th>Trip</th><th>Time</th><th>Duration</th><th>km</th><th>Max km/h</th><th>Idle</th><th>Overspeed</th><th>Max coolant °C</th><th>Ended by</th></tr></thead><tbody>${rows}</tbody></table></div>`:""}
+    ${os?`<div class="sub" style="margin-top:8px">Overspeed events</div><ul class="ev">${os}</ul>`:""}
+  </div>`;
+}
+
 async function loadFleet(){
   const f=await api("/api/fleet");
   document.getElementById("clock").textContent=f.clock?f.clock.slice(11,16):"–";
@@ -94,6 +132,7 @@ async function loadFleet(){
     <div class="card ${v.vehicle_id===selected?"sel":""}" style="--c:${col(v.decision)}" data-id="${v.vehicle_id}">
       <div class="row"><span class="vid">${v.vehicle_id}</span><span class="chip">${v.decision}</span></div>
       <div class="row meta"><span>Health ${v.health??"–"}</span><span>Confidence ${v.confidence!=null?Math.round(v.confidence*100)+"%":"–"}</span></div>
+      <div class="row meta"><span>${engChip(v.engine)}</span><span>${v.today?`${v.today.distance_km} km today${v.today.overspeed_events?` · <span class="os">${v.today.overspeed_events} overspeed</span>`:""}`:""}</span></div>
       <div class="ev1">${v.evidence[0]||""}</div>
     </div>`).join("");
   document.querySelectorAll(".card").forEach(c=>c.onclick=()=>{selected=c.dataset.id;loadFleet();});
@@ -137,7 +176,8 @@ async function loadVehicle(id){
     <div class="action">${v.action}</div>
     <b>Why</b><ul class="ev">${v.evidence.map(e=>`<li>${e}</li>`).join("")}</ul>
     <div class="sub">Decision over the last 60 min</div>
-    <div class="strip">${(s?s.decision:[]).map(x=>`<span style="background:${col(x)}"></span>`).join("")}</div>`;
+    <div class="strip">${(s?s.decision:[]).map(x=>`<span style="background:${col(x)}"></span>`).join("")}</div>
+    ${todayBlock(v)}`;
   if(first){
     d.innerHTML=`<div id="head"></div>
       <div class="charts">
@@ -145,6 +185,7 @@ async function loadVehicle(id){
         <div class="chart"><h3>Vibration (g) vs expected band</h3><canvas id="c_vib"></canvas></div>
         <div class="chart"><h3>Charging voltage (V) vs expected band</h3><canvas id="c_bat"></canvas></div>
         <div class="chart"><h3>RPM instability (rpm std) vs normal limit</h3><canvas id="c_rpm"></canvas></div>
+        <div class="chart wide"><h3>Speed (km/h) vs overspeed limit</h3><canvas id="c_speed"></canvas></div>
       </div>
       <div class="note">Shaded band = this vehicle's normal range for the current load, speed and ambient (expected ± 3σ). Decision support only — not a safety guarantee or a replacement for a mechanic's inspection.</div>`;
   }
@@ -156,6 +197,9 @@ async function loadVehicle(id){
   lineChart("c_rpm",s.t,[
     {data:s.t.map(()=>s.rpm_instability_hi),borderColor:css("--muted"),borderDash:[4,4],borderWidth:1,label:"normal limit"},
     {data:s.rpm_instability,borderColor:css("--high"),borderWidth:1.6,label:"instability"}]);
+  lineChart("c_speed",s.t,[
+    {data:s.t.map(()=>s.overspeed_limit),borderColor:css("--high"),borderDash:[4,4],borderWidth:1,label:"limit"},
+    {data:s.speed,borderColor:css("--accent"),borderWidth:1.6,label:"speed"}]);
 }
 
 document.getElementById("adv").onclick=async()=>{await api("/api/demo/advance",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({minutes:10})});loadFleet();};

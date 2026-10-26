@@ -10,6 +10,9 @@ Usage (from repo root):
   # 3. assess a new drive with the saved baseline
   python -m tools.import_obd logs/drive3.csv --vehicle MYCAR --assess
 
+  # 4. trips, engine on/off and overspeeding for the drive(s)
+  python -m tools.import_obd logs/drive3.csv --vehicle MYCAR --trips [--limit 60]
+
   # optional: also send it to the running dashboard
   ... --push http://127.0.0.1:8000
 
@@ -34,7 +37,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from engine import VehicleBaseline, timeline, explain          # noqa: E402
-from engine.config import SAMPLE_SEC, ACTIONS                  # noqa: E402
+from engine.config import SAMPLE_SEC, ACTIONS, OVERSPEED_KMH   # noqa: E402
+from engine.trips import trips as trip_list, summary as trip_summary, overspeed_events  # noqa: E402
 
 # first match wins; matched against lower-cased column/PID names
 ALIASES = {
@@ -184,6 +188,8 @@ def main(argv=None):
     ap.add_argument("--vehicle", required=True)
     ap.add_argument("--calibrate", action="store_true", help="treat these drives as healthy; save baseline")
     ap.add_argument("--assess", action="store_true", help="assess with saved baseline")
+    ap.add_argument("--trips", action="store_true", help="list trips, engine on/off and overspeeding")
+    ap.add_argument("--limit", type=float, default=OVERSPEED_KMH, help="overspeed limit in km/h (default 80)")
     ap.add_argument("--push", metavar="URL", help="also send rows to the running API")
     a = ap.parse_args(argv)
 
@@ -229,6 +235,22 @@ def main(argv=None):
         print("Action:", ACTIONS[int(row["level"])])
         print("Decisions over the drive:", tl["decision"].value_counts().to_dict())
         print(f"timeline saved {tpath}")
+    if a.trips:
+        # the importer drops engine-off rows, so trips are split by the time gaps they leave
+        ts = trip_list(data, limit=a.limit)
+        sm = trip_summary(data, limit=a.limit)
+        print(f"\n=== {a.vehicle}: {sm['trips']} trips, {sm['distance_km']} km, {sm['engine_hours']} engine hours, "
+              f"{sm['idle_pct']}% idling, {sm['overspeed_events']} overspeed events (> {a.limit:g} km/h) ===")
+        for t in ts:
+            print(f" trip {t['trip']}: {t['start']:%d %b %H:%M}-{t['end']:%H:%M}  {t['duration_min']:>6} min  "
+                  f"{t['distance_km']:>6} km  max {t['max_speed_kmh']} km/h  idle {t['idle_min']} min  "
+                  f"overspeed {t['overspeed_events']}  ended: {t['end_reason']}")
+        for o in overspeed_events(data, limit=a.limit):
+            print(f"   overspeed {o['start']:%H:%M:%S}-{o['end']:%H:%M:%S}  {o['duration_s']} s, max {o['max_speed_kmh']} km/h")
+        tpath = os.path.join(ROOT, "results", f"{a.vehicle}_trips.csv")
+        os.makedirs(os.path.dirname(tpath), exist_ok=True)
+        pd.DataFrame(ts).to_csv(tpath, index=False)
+        print(f"trips saved {tpath}")
     if a.push:
         _push(a.push, a.vehicle, data, a.calibrate)
 

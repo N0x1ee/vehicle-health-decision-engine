@@ -45,22 +45,30 @@ def vehicle_profile(vehicle_id: str) -> dict:
     }
 
 
-def _speed_profile(n, rng):
+def _speed_profile(n, rng, top=80.0, off=None):
+    """top = highest highway target speed (80 normal driver, 100 aggressive); off = engine-off rows."""
     speed = np.zeros(n)
     v, target = 0.0, 0.0
     for i in range(n):
         if rng.random() < 0.02:
             r = rng.random()
-            target = 0.0 if r < 0.15 else (rng.uniform(20, 45) if r < 0.55 else rng.uniform(45, 80))
+            target = 0.0 if r < 0.15 else (rng.uniform(20, 45) if r < 0.55 else rng.uniform(45, top))
         v += (target - v) * 0.15 + rng.normal(0, 1.0)
         v = max(v, 0.0)
+        if off is not None and off[i]:
+            v = 0.0
         speed[i] = v
     return speed
 
 
 def generate_trip(vehicle_id: str, scenario: str = "normal", minutes: int = 150,
-                  onset_min: int = 60, seed=0, start="2026-10-26 08:00") -> pd.DataFrame:
-    """Return one trip of telemetry (10 s rows) with ground-truth columns."""
+                  onset_min: int = 60, seed=0, start="2026-10-26 08:00",
+                  stops=(), driver: str = "normal") -> pd.DataFrame:
+    """Return one drive of telemetry (10 s rows) with ground-truth columns.
+
+    stops  = [(start_min, length_min), ...] engine-off stops (splits the drive into trips)
+    driver = "normal" (highway up to 80 km/h) or "aggressive" (up to 100 km/h -> overspeeding)
+    """
     if scenario not in SCENARIOS:
         raise ValueError(f"unknown scenario {scenario}")
     p = vehicle_profile(vehicle_id)
@@ -69,8 +77,11 @@ def generate_trip(vehicle_id: str, scenario: str = "normal", minutes: int = 150,
     k = onset_min * SAMPLES_PER_MIN
     t = np.arange(n)
     f = np.clip((t - k) / max(n - k, 1), 0, 1) * (t >= k)   # fault progress 0..1
+    off = np.zeros(n, dtype=bool)
+    for s0, ln in stops:
+        off[int(s0 * SAMPLES_PER_MIN):int((s0 + ln) * SAMPLES_PER_MIN)] = True
 
-    speed = _speed_profile(n, rng)
+    speed = _speed_profile(n, rng, top=100.0 if driver == "aggressive" else 80.0, off=off if off.any() else None)
     accel = np.diff(speed, prepend=speed[0]) / SAMPLE_SEC
 
     # occasional mild grades on every trip so the baseline learns load effects
@@ -95,7 +106,10 @@ def generate_trip(vehicle_id: str, scenario: str = "normal", minutes: int = 150,
     T = np.zeros(n)
     T[0] = target[0]
     for i in range(1, n):
-        T[i] = T[i - 1] + 0.08 * (target[i] - T[i - 1]) + rng.normal(0, 0.25)
+        if off[i]:   # engine off: coolant slowly cools towards ambient
+            T[i] = T[i - 1] + 0.006 * (ambient[i] - T[i - 1])
+        else:
+            T[i] = T[i - 1] + 0.08 * (target[i] - T[i - 1]) + rng.normal(0, 0.25)
     coolant = T + rng.normal(0, 0.4, n)
 
     vibration = p["vib_base"] + p["vib_speed_gain"] * speed + rng.normal(0, 1, n) * (0.03 + 0.0008 * speed)
@@ -120,6 +134,12 @@ def generate_trip(vehicle_id: str, scenario: str = "normal", minutes: int = 150,
         rpm += on * rng.normal(0, 1, n) * (20 + 140 * f)
     elif scenario == "battery_degradation":
         battery -= 2.0 * f
+
+    if off.any():
+        load[off] = 0.0
+        rpm[off] = 0.0
+        vibration[off] = 0.02
+        battery[off] = 12.5 + rng.normal(0, 0.03, off.sum())
 
     df = pd.DataFrame({
         "timestamp": pd.date_range(start, periods=n, freq=f"{SAMPLE_SEC}s"),

@@ -21,7 +21,8 @@ from pydantic import BaseModel
 from backend.store import Store
 
 from engine import VehicleBaseline, timeline, explain, generate_trip, calibration_data, SCENARIOS
-from engine.config import ACTIONS, SAMPLES_PER_MIN, CHANNELS, ALL_COLS
+from engine.config import ACTIONS, SAMPLES_PER_MIN, CHANNELS, ALL_COLS, OVERSPEED_KMH
+from engine.trips import trips, summary, overspeed_events, engine_state, engine_events
 
 warnings.filterwarnings("ignore")
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,6 +31,9 @@ DEMO_FLEET = [("V01", "normal"), ("V02", "pothole"), ("V03", "cooling_fault"), (
               ("V05", "mount_wear"), ("V06", "hot_day"), ("V07", "battery_degradation"), ("V08", "sensor_dropout"),
               ("V09", "overheat_severe"), ("V10", "stuck_sensor"), ("V11", "normal"), ("V12", "pothole")]
 DEMO_START_MIN = 50          # faults begin at minute 60
+# every demo vehicle parks 08:20-08:32 (two trips); a few park again later so "Engine off" shows live
+DEMO_STOPS = {"V01": [(20, 12), (80, 15)], "V06": [(20, 12), (100, 10)], "V11": [(20, 12), (65, 20)]}
+DEMO_AGGRESSIVE = {"V02", "V06", "V11"}      # drivers who go past the 80 km/h limit
 SORT_KEY = {"High Priority": 5, "Inspect Soon": 4, "DATA UNAVAILABLE": 3, "Monitor": 2, "Continue": 1, "CALIBRATING": 0}
 
 app = FastAPI(title="Vehicle Health Decision Engine", version="0.1")
@@ -52,7 +56,9 @@ def reset_demo():
     vehicles = {}
     for vid, sc in DEMO_FLEET:
         vehicles[vid] = {"baseline": VehicleBaseline(vid).fit(calibration_data(vid)),
-                         "trip": generate_trip(vid, sc, seed="demo"), "scenario": sc, "demo": True, "data": None}
+                         "trip": generate_trip(vid, sc, seed="demo", stops=DEMO_STOPS.get(vid, [(20, 12)]),
+                                              driver="aggressive" if vid in DEMO_AGGRESSIVE else "normal"),
+                         "scenario": sc, "demo": True, "data": None}
     # real vehicles come back from the database (they survive restarts and demo resets)
     for vid, rec in STORE.load_all().items():
         vehicles[vid] = {"baseline": rec["baseline"], "data": rec["data"], "demo": False}
@@ -66,13 +72,44 @@ def _data(v):
     return v["data"]
 
 
+def _ser(obj):
+    """JSON-safe copy of trip/event dicts (timestamps -> 'YYYY-MM-DD HH:MM:SS')."""
+    if isinstance(obj, list):
+        return [_ser(x) for x in obj]
+    if isinstance(obj, dict):
+        return {k: _ser(x) for k, x in obj.items()}
+    if isinstance(obj, pd.Timestamp):
+        return obj.strftime("%Y-%m-%d %H:%M:%S")
+    return _clean(obj)
+
+
+def _today(df):
+    """Rows from the latest calendar day in df (the 'today' panel)."""
+    ts = pd.to_datetime(df["timestamp"])
+    return df[ts.dt.date == ts.iloc[-1].date()]
+
+
+def _driving(df, detail=False):
+    if df is None or len(df) == 0 or "timestamp" not in df:
+        return {}
+    day = _today(df)
+    out = {"engine": _ser(engine_state(df)), "today": _ser(summary(day))}
+    if detail:
+        out["trips"] = _ser(trips(day))
+        out["overspeed"] = _ser(overspeed_events(day))
+        out["engine_events"] = _ser(engine_events(day))
+    return out
+
+
 def _status(vid, v, with_series=False):
     df = _data(v)
     if v["baseline"] is None or df is None or len(df) == 0:
-        return {"vehicle_id": vid, "decision": "CALIBRATING", "level": -2, "health": None, "risk": None,
-                "confidence": None, "evidence": ["Collecting healthy history to learn this vehicle's normal behaviour."],
-                "action": "Keep driving normally; calibrate once ~1 hour of healthy data is in.",
-                "rows": 0 if df is None else len(df)}
+        out = {"vehicle_id": vid, "decision": "CALIBRATING", "level": -2, "health": None, "risk": None,
+               "confidence": None, "evidence": ["Collecting healthy history to learn this vehicle's normal behaviour."],
+               "action": "Keep driving normally; calibrate once ~1 hour of healthy data is in.",
+               "rows": 0 if df is None else len(df)}
+        out.update(_driving(df, detail=with_series))
+        return out
     tl = timeline(df, v["baseline"])
     row = tl.iloc[-1]
     lvl = int(row["level"])
@@ -83,6 +120,7 @@ def _status(vid, v, with_series=False):
     if v["demo"]:
         out["demo_scenario"] = v["scenario"]
         out["demo_scenario_desc"] = SCENARIOS[v["scenario"]]["desc"]
+    out.update(_driving(df, detail=with_series))
     if with_series:
         out["series"] = _series(df, tl, v["baseline"])
     return out
@@ -93,6 +131,13 @@ def _series(df, tl, base, minutes=60):
     d, t = df.iloc[-n:], tl.iloc[-n:]
     step = 3                                    # every 30 s
     d, t = d.iloc[::step], t.iloc[::step]
+    off = t["engine_off"].astype(bool).values
+    d = d.copy()
+    d.loc[off, ["coolant_temp", "vibration", "battery_v"]] = np.nan   # parked: show a gap, not a "fault"
+    t = t.copy()
+    for c in ["coolant_temp_exp", "vibration_exp", "battery_v_exp", "rpm_instability_val"]:
+        if c in t:
+            t[c] = t[c].astype(float).where(~off)
     s = {"t": [str(x)[11:16] for x in d["timestamp"]], "decision": t["decision"].tolist(),
          "risk": [_clean(x) for x in t["risk"]]}
     for sig in ["coolant_temp", "vibration", "battery_v"]:
@@ -107,6 +152,8 @@ def _series(df, tl, base, minutes=60):
     s["rpm_instability"] = [_clean(x) for x in t["rpm_instability_val"]]
     s["rpm_instability_hi"] = (base.rpm_instab["median"] + 3 * base.rpm_instab["sigma"]) if base.rpm_instab else None
     s["speed"] = [_clean(x) for x in d["speed"]]
+    s["overspeed_limit"] = OVERSPEED_KMH
+    s["engine_off"] = [bool(x) for x in t["engine_off"]]
     return s
 
 
@@ -143,6 +190,23 @@ def vehicle(vid: str):
         if not v:
             raise HTTPException(404, "unknown vehicle")
         return _status(vid, v, with_series=True)
+
+
+@app.get("/api/vehicles/{vid}/trips")
+def vehicle_trips(vid: str, date: Optional[str] = None):
+    """Trips, engine on/off events, overspeeding and totals for one day (default: the latest day)."""
+    with lock:
+        v = STATE["vehicles"].get(vid)
+        if not v:
+            raise HTTPException(404, "unknown vehicle")
+        df = _data(v)
+    if df is None or len(df) == 0:
+        return {"vehicle_id": vid, "date": date, "trips": [], "overspeed": [], "engine_events": [], "summary": {}}
+    ts = pd.to_datetime(df["timestamp"])
+    day = df[ts.dt.date == (pd.Timestamp(date).date() if date else ts.iloc[-1].date())]
+    return {"vehicle_id": vid, "date": date or str(ts.iloc[-1].date()), "limit_kmh": OVERSPEED_KMH,
+            "engine": _ser(engine_state(df)), "summary": _ser(summary(day)), "trips": _ser(trips(day)),
+            "overspeed": _ser(overspeed_events(day)), "engine_events": _ser(engine_events(day))}
 
 
 class Advance(BaseModel):

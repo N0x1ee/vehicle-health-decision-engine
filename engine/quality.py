@@ -2,10 +2,9 @@
 import numpy as np
 import pandas as pd
 
-from .config import VALID_RANGE, ALL_COLS
+from .config import VALID_RANGE, ALL_COLS, ENGINE_ON_RPM
 
 WARMUP_TEMP = 65.0     # °C
-ENGINE_ON_RPM = 300
 
 
 def clean(df: pd.DataFrame) -> pd.DataFrame:

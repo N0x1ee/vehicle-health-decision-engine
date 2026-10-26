@@ -37,6 +37,17 @@ telemetry -> data quality (ranges, missing, frozen sensor, cold start, engine of
 - 2+ persistent signals, or 1 severe one (e.g. coolant +8 °C, voltage −1 V) → **High Priority**
 - Emerging (30–60% of window) or a degraded sensor → **Monitor**
 - Less than 50% of the last 5 min has data → **DATA UNAVAILABLE**
+- Engine off (rpm < 300) → not judged; the last assessment from when it was running is shown
+
+## Trips, engine on/off and overspeeding
+Supporting module (`engine/trips.py`), plain rules with no ML:
+- **Trip** = a continuous run of engine-on rows. It ends when the engine turns off, when data stops (a gap over 5 min or rows with no rpm), or it is still ongoing.
+- **Distance** comes from integrating OBD speed over time, so no GPS is needed.
+- **Overspeed** = over 80 km/h for at least 30 s; events less than 30 s apart are merged. The limit is in `engine/config.py`, or use `--limit` in the CLI.
+- **Per trip:** start/end, duration, km, average and max speed, idle minutes, overspeed events, max coolant, why it ended.
+- **Per day:** trips, km, engine hours, idle %, overspeed events, max speed.
+
+The dashboard shows a **Today** panel per vehicle (trips table, overspeed events, speed vs limit chart) and an engine on/off chip on every card. For a real log, run `python -m tools.import_obd logs\drive.csv --vehicle MYCAR --trips` (saves `results/MYCAR_trips.csv`).
 
 All rules and limits are in `engine/config.py`.
 
@@ -64,7 +75,8 @@ Signals the car doesn't report (often vibration and ambient temp) are skipped au
 | Method | Path | What |
 |---|---|---|
 | GET | `/api/fleet` | All vehicles, sorted by priority |
-| GET | `/api/vehicles/{id}` | Decision, evidence, last-60-min series |
+| GET | `/api/vehicles/{id}` | Decision, evidence, engine state, today's trips and overspeeds, last-60-min series |
+| GET | `/api/vehicles/{id}/trips?date=YYYY-MM-DD` | Trips, engine on/off events, overspeed events and daily totals (default: latest day) |
 | POST | `/api/telemetry` | `{"vehicle_id": "...", "rows": [{"timestamp": "...", "speed": 42, "engine_load": 38, "coolant_temp": 89.5, "rpm": 1900, "battery_v": 14.1, ...}]}` |
 | POST | `/api/vehicles/{id}/calibrate` | Learn baseline from ingested (healthy) data |
 | DELETE | `/api/vehicles/{id}` | Remove a real vehicle and its data |
@@ -73,11 +85,11 @@ Signals the car doesn't report (often vibration and ambient temp) are skipped au
 ## Layout
 | Path | What |
 |---|---|
-| `engine/` | Simulator, data-quality rules, vehicle baseline, decision engine, config |
+| `engine/` | Simulator, data-quality rules, vehicle baseline, decision engine, trips/overspeed module, config |
 | `eval/` | Engine vs thresholds, Isolation Forest ablation, Scania benchmark |
 | `backend/` | FastAPI app + SQLite store |
 | `frontend/index.html` | Fleet dashboard |
-| `tools/import_obd.py` | OBD app log importer + calibrate/assess CLI |
+| `tools/import_obd.py` | OBD app log importer + calibrate / assess / trips CLI |
 | `docs/` | Interview script, interview log, competitor map |
 | `results/` | Latest evaluation reports |
 | `tests/` | pytest |

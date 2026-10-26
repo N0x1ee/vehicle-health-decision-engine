@@ -5,3 +5,5 @@ __pycache__/
 # vehicle data can be personal (DPDP) - keep out of git
 logs/
 data/
+baselines/
+Claude outputs/

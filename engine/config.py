@@ -58,5 +58,13 @@ ACTIONS = {
     3: "Inspect before next trip; consider taking the vehicle off the road.",
 }
 
+# Trips, engine on/off and overspeeding (deterministic rules, no ML)
+ENGINE_ON_RPM = 300          # rpm at or above this = engine running
+TRIP_GAP_MIN = 5             # a gap with no rows longer than this ends a trip
+IDLE_KMH = 2                 # engine on and slower than this = idling
+OVERSPEED_KMH = 80           # speed limit (configurable per fleet)
+OVERSPEED_MIN_SEC = 30       # must stay above the limit this long to count
+OVERSPEED_MERGE_SEC = 30     # events closer than this are merged into one
+
 # Simple threshold system we compare against (what most basic trackers do)
 THRESHOLDS = {"coolant_temp": 105.0, "vibration": 1.5, "battery_v": 12.4, "rpm": 4500.0}
