@@ -1,0 +1,601 @@
+condition,vehicle,scenario,kind,final_decision,eng_alert,thr_alert,eng_events,thr_events,eng_data_unavailable,eng_delay_min,thr_delay_min
+clean,V01,normal,benign,Continue,False,False,0,0,False,,
+clean,V01,pothole,benign,Continue,False,True,0,4,False,,
+clean,V01,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V01,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V01,cooling_fault,fault,High Priority,True,True,1,11,False,11.5,71.66666666666667
+clean,V01,mount_wear,fault,High Priority,True,False,1,0,False,5.0,
+clean,V01,overheat_severe,fault,High Priority,True,True,1,14,False,14.666666666666666,38.5
+clean,V01,battery_degradation,fault,High Priority,True,True,1,11,False,15.166666666666666,60.666666666666664
+clean,V01,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V01,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V02,normal,benign,Continue,False,False,0,0,False,,
+clean,V02,pothole,benign,Continue,False,True,0,4,False,,
+clean,V02,hill_climb,benign,Continue,False,True,0,3,False,,
+clean,V02,hot_day,benign,Continue,False,True,0,1,False,,
+clean,V02,cooling_fault,fault,High Priority,True,True,1,5,False,16.833333333333332,37.833333333333336
+clean,V02,mount_wear,fault,High Priority,True,False,1,0,False,7.833333333333333,
+clean,V02,overheat_severe,fault,High Priority,True,True,1,14,False,14.666666666666666,11.666666666666666
+clean,V02,battery_degradation,fault,High Priority,True,True,1,13,False,12.166666666666666,64.66666666666667
+clean,V02,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V02,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V03,normal,benign,Continue,False,False,0,0,False,,
+clean,V03,pothole,benign,Continue,False,True,0,4,False,,
+clean,V03,hill_climb,benign,Continue,False,True,0,5,False,,
+clean,V03,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V03,cooling_fault,fault,High Priority,True,True,1,7,False,13.333333333333334,45.833333333333336
+clean,V03,mount_wear,fault,High Priority,True,False,1,0,False,4.166666666666667,
+clean,V03,overheat_severe,fault,High Priority,True,True,1,20,False,10.833333333333334,29.333333333333332
+clean,V03,battery_degradation,fault,High Priority,True,True,1,15,False,15.833333333333334,71.83333333333333
+clean,V03,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V03,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V04,normal,benign,Continue,False,False,0,0,False,,
+clean,V04,pothole,benign,Continue,False,True,0,4,False,,
+clean,V04,hill_climb,benign,Continue,False,True,0,11,False,,
+clean,V04,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V04,cooling_fault,fault,High Priority,True,True,1,2,False,10.666666666666666,58.166666666666664
+clean,V04,mount_wear,fault,High Priority,True,False,1,0,False,7.166666666666667,
+clean,V04,overheat_severe,fault,High Priority,True,True,1,2,False,14.333333333333334,45.333333333333336
+clean,V04,battery_degradation,fault,High Priority,True,True,1,14,False,13.833333333333334,62.333333333333336
+clean,V04,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V04,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V05,normal,benign,Continue,False,False,0,0,False,,
+clean,V05,pothole,benign,Continue,False,True,0,4,False,,
+clean,V05,hill_climb,benign,Continue,False,True,0,3,False,,
+clean,V05,hot_day,benign,Continue,False,True,0,2,False,,
+clean,V05,cooling_fault,fault,High Priority,True,True,1,16,False,17.333333333333332,18.0
+clean,V05,mount_wear,fault,High Priority,True,False,2,0,False,5.166666666666667,
+clean,V05,overheat_severe,fault,High Priority,True,True,1,2,False,13.166666666666666,37.333333333333336
+clean,V05,battery_degradation,fault,High Priority,True,True,1,15,False,13.333333333333334,62.833333333333336
+clean,V05,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V05,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V06,normal,benign,Continue,False,False,0,0,False,,
+clean,V06,pothole,benign,Continue,False,True,0,3,False,,
+clean,V06,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V06,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V06,cooling_fault,fault,High Priority,True,True,1,4,False,12.0,62.166666666666664
+clean,V06,mount_wear,fault,High Priority,True,False,1,0,False,4.5,
+clean,V06,overheat_severe,fault,High Priority,True,True,1,3,False,10.833333333333334,87.0
+clean,V06,battery_degradation,fault,High Priority,True,True,1,15,False,12.833333333333334,60.5
+clean,V06,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V06,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V07,normal,benign,Continue,False,False,0,0,False,,
+clean,V07,pothole,benign,Continue,False,True,0,4,False,,
+clean,V07,hill_climb,benign,Continue,False,True,0,3,False,,
+clean,V07,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V07,cooling_fault,fault,High Priority,True,True,1,4,False,16.166666666666668,54.666666666666664
+clean,V07,mount_wear,fault,High Priority,True,False,1,0,False,6.166666666666667,
+clean,V07,overheat_severe,fault,High Priority,True,True,1,9,False,13.0,59.833333333333336
+clean,V07,battery_degradation,fault,High Priority,True,True,1,11,False,13.333333333333334,60.333333333333336
+clean,V07,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V07,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V08,normal,benign,Continue,False,False,0,0,False,,
+clean,V08,pothole,benign,Continue,False,True,0,4,False,,
+clean,V08,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V08,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V08,cooling_fault,fault,High Priority,True,True,1,19,False,14.5,53.0
+clean,V08,mount_wear,fault,High Priority,True,False,1,0,False,4.166666666666667,
+clean,V08,overheat_severe,fault,High Priority,True,True,1,15,False,12.0,52.166666666666664
+clean,V08,battery_degradation,fault,High Priority,True,True,1,11,False,13.666666666666666,79.83333333333333
+clean,V08,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V08,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V09,normal,benign,Continue,False,False,0,0,False,,
+clean,V09,pothole,benign,Continue,False,True,0,4,False,,
+clean,V09,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V09,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V09,cooling_fault,fault,High Priority,True,True,1,6,False,12.5,74.33333333333333
+clean,V09,mount_wear,fault,High Priority,True,False,1,0,False,3.3333333333333335,
+clean,V09,overheat_severe,fault,High Priority,True,True,1,5,False,8.833333333333334,38.333333333333336
+clean,V09,battery_degradation,fault,High Priority,True,True,1,12,False,15.166666666666666,78.83333333333333
+clean,V09,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V09,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V10,normal,benign,Continue,False,False,0,0,False,,
+clean,V10,pothole,benign,Continue,False,True,0,4,False,,
+clean,V10,hill_climb,benign,Continue,False,True,0,14,False,,
+clean,V10,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V10,cooling_fault,fault,High Priority,True,True,1,13,False,16.666666666666668,43.0
+clean,V10,mount_wear,fault,High Priority,True,False,1,0,False,5.5,
+clean,V10,overheat_severe,fault,High Priority,True,True,1,4,False,15.0,31.833333333333332
+clean,V10,battery_degradation,fault,High Priority,True,True,1,14,False,14.833333333333334,62.166666666666664
+clean,V10,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V10,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V11,normal,benign,Continue,False,False,0,0,False,,
+clean,V11,pothole,benign,Continue,True,True,1,4,False,,
+clean,V11,hill_climb,benign,Continue,False,True,0,9,False,,
+clean,V11,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V11,cooling_fault,fault,High Priority,True,True,1,6,False,16.333333333333332,49.833333333333336
+clean,V11,mount_wear,fault,High Priority,True,False,1,0,False,4.833333333333333,
+clean,V11,overheat_severe,fault,High Priority,True,True,1,10,False,7.166666666666667,27.0
+clean,V11,battery_degradation,fault,High Priority,True,True,1,10,False,15.166666666666666,78.0
+clean,V11,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V11,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V12,normal,benign,Continue,False,False,0,0,False,,
+clean,V12,pothole,benign,Continue,False,True,0,4,False,,
+clean,V12,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V12,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V12,cooling_fault,fault,High Priority,True,True,1,9,False,14.333333333333334,69.0
+clean,V12,mount_wear,fault,High Priority,True,False,1,0,False,6.333333333333333,
+clean,V12,overheat_severe,fault,High Priority,True,True,1,2,False,7.666666666666667,67.66666666666667
+clean,V12,battery_degradation,fault,High Priority,True,True,1,8,False,15.333333333333334,64.66666666666667
+clean,V12,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V12,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V13,normal,benign,Continue,False,False,0,0,False,,
+clean,V13,pothole,benign,Continue,False,True,0,4,False,,
+clean,V13,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V13,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V13,cooling_fault,fault,High Priority,True,True,1,1,False,16.0,75.16666666666667
+clean,V13,mount_wear,fault,High Priority,True,False,1,0,False,7.0,
+clean,V13,overheat_severe,fault,High Priority,True,True,1,13,False,9.166666666666666,66.66666666666667
+clean,V13,battery_degradation,fault,High Priority,True,True,1,15,False,13.166666666666666,75.5
+clean,V13,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V13,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V14,normal,benign,Continue,False,False,0,0,False,,
+clean,V14,pothole,benign,Continue,False,True,0,4,False,,
+clean,V14,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V14,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V14,cooling_fault,fault,High Priority,True,True,1,10,False,10.166666666666666,53.666666666666664
+clean,V14,mount_wear,fault,High Priority,True,False,1,0,False,3.3333333333333335,
+clean,V14,overheat_severe,fault,High Priority,True,True,1,9,False,7.5,66.66666666666667
+clean,V14,battery_degradation,fault,High Priority,True,True,1,13,False,14.333333333333334,75.5
+clean,V14,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V14,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V15,normal,benign,Continue,False,False,0,0,False,,
+clean,V15,pothole,benign,Continue,False,True,0,4,False,,
+clean,V15,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V15,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V15,cooling_fault,fault,High Priority,True,True,1,1,False,16.333333333333332,68.83333333333333
+clean,V15,mount_wear,fault,High Priority,True,False,1,0,False,4.166666666666667,
+clean,V15,overheat_severe,fault,High Priority,True,True,2,6,False,9.5,51.166666666666664
+clean,V15,battery_degradation,fault,High Priority,True,True,1,16,False,12.833333333333334,63.333333333333336
+clean,V15,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V15,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V16,normal,benign,Continue,False,False,0,0,False,,
+clean,V16,pothole,benign,Continue,False,True,0,4,False,,
+clean,V16,hill_climb,benign,Continue,False,True,0,3,False,,
+clean,V16,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V16,cooling_fault,fault,High Priority,True,True,1,7,False,12.0,60.166666666666664
+clean,V16,mount_wear,fault,High Priority,True,False,1,0,False,4.333333333333333,
+clean,V16,overheat_severe,fault,High Priority,True,True,1,4,False,14.0,75.66666666666667
+clean,V16,battery_degradation,fault,High Priority,True,True,1,11,False,13.333333333333334,68.66666666666667
+clean,V16,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V16,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V17,normal,benign,Continue,False,False,0,0,False,,
+clean,V17,pothole,benign,Continue,False,True,0,4,False,,
+clean,V17,hill_climb,benign,Continue,False,True,0,6,False,,
+clean,V17,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V17,cooling_fault,fault,High Priority,True,True,1,3,False,13.333333333333334,42.333333333333336
+clean,V17,mount_wear,fault,High Priority,True,False,1,0,False,6.333333333333333,
+clean,V17,overheat_severe,fault,High Priority,True,True,1,5,False,11.333333333333334,53.666666666666664
+clean,V17,battery_degradation,fault,High Priority,True,True,1,13,False,14.5,73.16666666666667
+clean,V17,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V17,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V18,normal,benign,Continue,False,False,0,0,False,,
+clean,V18,pothole,benign,Continue,False,True,0,4,False,,
+clean,V18,hill_climb,benign,Continue,False,True,0,2,False,,
+clean,V18,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V18,cooling_fault,fault,High Priority,True,True,1,9,False,13.666666666666666,34.666666666666664
+clean,V18,mount_wear,fault,High Priority,True,False,1,0,False,5.0,
+clean,V18,overheat_severe,fault,High Priority,True,True,1,12,False,10.5,36.0
+clean,V18,battery_degradation,fault,High Priority,True,True,1,10,False,13.833333333333334,62.666666666666664
+clean,V18,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V18,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V19,normal,benign,Continue,False,False,0,0,False,,
+clean,V19,pothole,benign,Continue,False,True,0,4,False,,
+clean,V19,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V19,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V19,cooling_fault,fault,High Priority,True,True,1,12,False,11.5,74.0
+clean,V19,mount_wear,fault,High Priority,True,False,1,0,False,6.5,
+clean,V19,overheat_severe,fault,High Priority,True,True,1,8,False,14.0,82.0
+clean,V19,battery_degradation,fault,High Priority,True,True,1,14,False,14.833333333333334,71.5
+clean,V19,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V19,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V20,normal,benign,Continue,False,False,0,0,False,,
+clean,V20,pothole,benign,Continue,False,True,0,4,False,,
+clean,V20,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V20,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V20,cooling_fault,fault,High Priority,True,True,1,4,False,17.333333333333332,84.33333333333333
+clean,V20,mount_wear,fault,High Priority,True,False,2,0,False,5.166666666666667,
+clean,V20,overheat_severe,fault,High Priority,True,True,1,9,False,12.166666666666666,54.166666666666664
+clean,V20,battery_degradation,fault,High Priority,True,True,1,9,False,13.333333333333334,68.0
+clean,V20,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V20,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V21,normal,benign,Continue,False,False,0,0,False,,
+clean,V21,pothole,benign,Continue,False,True,0,4,False,,
+clean,V21,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V21,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V21,cooling_fault,fault,High Priority,True,True,2,4,False,17.0,65.83333333333333
+clean,V21,mount_wear,fault,High Priority,True,True,1,1,False,4.666666666666667,84.0
+clean,V21,overheat_severe,fault,High Priority,True,True,1,8,False,13.666666666666666,61.0
+clean,V21,battery_degradation,fault,High Priority,True,True,1,10,False,13.0,71.16666666666667
+clean,V21,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V21,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V22,normal,benign,Continue,False,False,0,0,False,,
+clean,V22,pothole,benign,Continue,False,True,0,4,False,,
+clean,V22,hill_climb,benign,Continue,False,True,0,6,False,,
+clean,V22,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V22,cooling_fault,fault,High Priority,True,True,1,10,False,7.5,60.333333333333336
+clean,V22,mount_wear,fault,High Priority,True,False,1,0,False,4.5,
+clean,V22,overheat_severe,fault,High Priority,True,True,1,7,False,15.5,39.666666666666664
+clean,V22,battery_degradation,fault,High Priority,True,True,1,10,False,12.0,68.83333333333333
+clean,V22,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V22,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V23,normal,benign,Continue,False,False,0,0,False,,
+clean,V23,pothole,benign,Continue,False,True,0,4,False,,
+clean,V23,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V23,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V23,cooling_fault,fault,High Priority,True,True,1,6,False,20.333333333333332,62.333333333333336
+clean,V23,mount_wear,fault,High Priority,True,False,1,0,False,7.5,
+clean,V23,overheat_severe,fault,High Priority,True,True,1,4,False,12.833333333333334,54.166666666666664
+clean,V23,battery_degradation,fault,High Priority,True,True,1,11,False,12.666666666666666,70.83333333333333
+clean,V23,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V23,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V24,normal,benign,Continue,False,False,0,0,False,,
+clean,V24,pothole,benign,Continue,False,True,0,4,False,,
+clean,V24,hill_climb,benign,Monitor,False,True,0,2,False,,
+clean,V24,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V24,cooling_fault,fault,High Priority,True,True,1,8,False,13.833333333333334,69.83333333333333
+clean,V24,mount_wear,fault,High Priority,True,False,1,0,False,3.3333333333333335,
+clean,V24,overheat_severe,fault,High Priority,True,True,1,1,False,10.833333333333334,65.0
+clean,V24,battery_degradation,fault,High Priority,True,True,1,13,False,13.0,70.33333333333333
+clean,V24,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V24,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V25,normal,benign,Continue,False,False,0,0,False,,
+clean,V25,pothole,benign,Continue,False,True,0,4,False,,
+clean,V25,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V25,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V25,cooling_fault,fault,High Priority,True,True,1,11,False,12.833333333333334,61.0
+clean,V25,mount_wear,fault,High Priority,True,False,1,0,False,3.3333333333333335,
+clean,V25,overheat_severe,fault,High Priority,True,True,1,9,False,11.333333333333334,68.16666666666667
+clean,V25,battery_degradation,fault,High Priority,True,True,1,14,False,13.333333333333334,68.33333333333333
+clean,V25,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V25,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V26,normal,benign,Continue,False,False,0,0,False,,
+clean,V26,pothole,benign,Continue,False,True,0,4,False,,
+clean,V26,hill_climb,benign,Continue,False,True,0,3,False,,
+clean,V26,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V26,cooling_fault,fault,High Priority,True,True,1,8,False,13.0,19.666666666666668
+clean,V26,mount_wear,fault,High Priority,True,False,1,0,False,3.1666666666666665,
+clean,V26,overheat_severe,fault,High Priority,True,True,1,4,False,12.666666666666666,29.833333333333332
+clean,V26,battery_degradation,fault,High Priority,True,True,1,9,False,15.0,69.5
+clean,V26,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V26,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V27,normal,benign,Continue,False,False,0,0,False,,
+clean,V27,pothole,benign,Continue,False,True,0,4,False,,
+clean,V27,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V27,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V27,cooling_fault,fault,High Priority,True,True,1,8,False,14.833333333333334,72.33333333333333
+clean,V27,mount_wear,fault,High Priority,True,True,1,5,False,6.0,79.0
+clean,V27,overheat_severe,fault,High Priority,True,True,1,2,False,11.166666666666666,65.33333333333333
+clean,V27,battery_degradation,fault,High Priority,True,True,1,13,False,14.166666666666666,66.5
+clean,V27,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V27,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V28,normal,benign,Continue,False,False,0,0,False,,
+clean,V28,pothole,benign,Continue,False,True,0,4,False,,
+clean,V28,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V28,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V28,cooling_fault,fault,High Priority,True,True,1,2,False,15.833333333333334,63.833333333333336
+clean,V28,mount_wear,fault,High Priority,True,False,1,0,False,3.3333333333333335,
+clean,V28,overheat_severe,fault,High Priority,True,True,1,23,False,15.833333333333334,51.166666666666664
+clean,V28,battery_degradation,fault,High Priority,True,True,1,12,False,13.166666666666666,78.5
+clean,V28,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V28,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V29,normal,benign,Continue,False,False,0,0,False,,
+clean,V29,pothole,benign,Continue,False,True,0,4,False,,
+clean,V29,hill_climb,benign,Continue,False,False,0,0,False,,
+clean,V29,hot_day,benign,Continue,False,False,0,0,False,,
+clean,V29,cooling_fault,fault,High Priority,True,True,1,7,False,14.0,84.16666666666667
+clean,V29,mount_wear,fault,High Priority,True,True,1,1,False,5.333333333333333,80.0
+clean,V29,overheat_severe,fault,High Priority,True,True,1,10,False,9.666666666666666,60.166666666666664
+clean,V29,battery_degradation,fault,High Priority,True,True,1,14,False,16.166666666666668,77.83333333333333
+clean,V29,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V29,stuck_sensor,data,Monitor,False,False,0,0,False,,
+clean,V30,normal,benign,Continue,False,False,0,0,False,,
+clean,V30,pothole,benign,Continue,False,True,0,4,False,,
+clean,V30,hill_climb,benign,Continue,False,True,0,4,False,,
+clean,V30,hot_day,benign,Continue,False,True,0,1,False,,
+clean,V30,cooling_fault,fault,High Priority,True,True,1,10,False,14.666666666666666,39.333333333333336
+clean,V30,mount_wear,fault,High Priority,True,False,1,0,False,8.5,
+clean,V30,overheat_severe,fault,High Priority,True,True,1,9,False,10.166666666666666,44.5
+clean,V30,battery_degradation,fault,High Priority,True,True,1,12,False,14.5,79.33333333333333
+clean,V30,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+clean,V30,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V01,normal,benign,Continue,False,False,0,0,True,,
+noisy,V01,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V01,hill_climb,benign,Continue,False,False,0,0,True,,
+noisy,V01,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V01,cooling_fault,fault,High Priority,True,True,1,8,False,22.0,71.5
+noisy,V01,mount_wear,fault,High Priority,True,False,2,0,False,10.666666666666666,
+noisy,V01,overheat_severe,fault,High Priority,True,True,1,37,True,16.166666666666668,38.666666666666664
+noisy,V01,battery_degradation,fault,High Priority,True,True,1,30,False,18.666666666666668,53.5
+noisy,V01,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V01,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V02,normal,benign,Continue,False,False,0,0,False,,
+noisy,V02,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V02,hill_climb,benign,Continue,False,True,0,5,False,,
+noisy,V02,hot_day,benign,Continue,False,True,0,1,False,,
+noisy,V02,cooling_fault,fault,High Priority,True,True,1,17,False,18.333333333333332,59.5
+noisy,V02,mount_wear,fault,High Priority,True,False,2,0,False,9.166666666666666,
+noisy,V02,overheat_severe,fault,High Priority,True,True,1,48,False,10.5,10.833333333333334
+noisy,V02,battery_degradation,fault,High Priority,True,True,1,21,False,16.0,61.666666666666664
+noisy,V02,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V02,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V03,normal,benign,Monitor,False,False,0,0,True,,
+noisy,V03,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V03,hill_climb,benign,Continue,False,True,0,9,False,,
+noisy,V03,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V03,cooling_fault,fault,High Priority,True,True,1,40,False,14.666666666666666,46.5
+noisy,V03,mount_wear,fault,High Priority,True,False,1,0,True,9.5,
+noisy,V03,overheat_severe,fault,High Priority,True,True,1,51,False,11.333333333333334,29.333333333333332
+noisy,V03,battery_degradation,fault,High Priority,True,True,1,19,False,20.666666666666668,71.83333333333333
+noisy,V03,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V03,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V04,normal,benign,Continue,False,False,0,0,False,,
+noisy,V04,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V04,hill_climb,benign,Continue,False,True,0,16,False,,
+noisy,V04,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V04,cooling_fault,fault,High Priority,True,True,1,22,False,9.666666666666666,47.166666666666664
+noisy,V04,mount_wear,fault,High Priority,True,False,1,0,False,11.333333333333334,
+noisy,V04,overheat_severe,fault,High Priority,True,True,1,25,False,15.333333333333334,45.166666666666664
+noisy,V04,battery_degradation,fault,High Priority,True,True,1,23,False,17.166666666666668,62.333333333333336
+noisy,V04,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V04,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V05,normal,benign,Continue,False,False,0,0,False,,
+noisy,V05,pothole,benign,Continue,False,True,0,4,True,,
+noisy,V05,hill_climb,benign,Continue,False,True,0,12,False,,
+noisy,V05,hot_day,benign,Continue,False,True,0,2,False,,
+noisy,V05,cooling_fault,fault,High Priority,True,True,1,49,False,17.166666666666668,18.666666666666668
+noisy,V05,mount_wear,fault,High Priority,True,False,1,0,False,12.666666666666666,
+noisy,V05,overheat_severe,fault,High Priority,True,True,1,34,False,9.666666666666666,32.166666666666664
+noisy,V05,battery_degradation,fault,High Priority,True,True,1,25,True,20.833333333333332,60.333333333333336
+noisy,V05,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V05,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V06,normal,benign,Continue,False,False,0,0,False,,
+noisy,V06,pothole,benign,Continue,False,True,0,3,False,,
+noisy,V06,hill_climb,benign,Continue,False,False,0,0,False,,
+noisy,V06,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V06,cooling_fault,fault,High Priority,True,True,1,19,False,12.666666666666666,61.333333333333336
+noisy,V06,mount_wear,fault,High Priority,True,False,1,0,False,19.0,
+noisy,V06,overheat_severe,fault,High Priority,True,True,1,1,False,15.666666666666666,88.33333333333333
+noisy,V06,battery_degradation,fault,High Priority,True,True,1,32,True,22.833333333333332,60.5
+noisy,V06,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V06,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V07,normal,benign,Continue,False,False,0,0,False,,
+noisy,V07,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V07,hill_climb,benign,Continue,False,True,0,5,False,,
+noisy,V07,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V07,cooling_fault,fault,High Priority,True,True,1,16,False,8.666666666666666,54.333333333333336
+noisy,V07,mount_wear,fault,High Priority,True,False,2,0,False,7.0,
+noisy,V07,overheat_severe,fault,High Priority,True,True,2,19,False,3.0,59.5
+noisy,V07,battery_degradation,fault,High Priority,True,True,1,25,False,26.0,58.666666666666664
+noisy,V07,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V07,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V08,normal,benign,Continue,False,False,0,0,False,,
+noisy,V08,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V08,hill_climb,benign,Continue,False,False,0,0,True,,
+noisy,V08,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V08,cooling_fault,fault,High Priority,True,True,1,29,True,15.0,51.166666666666664
+noisy,V08,mount_wear,fault,High Priority,True,False,1,0,False,14.5,
+noisy,V08,overheat_severe,fault,High Priority,True,True,1,15,False,18.666666666666668,62.333333333333336
+noisy,V08,battery_degradation,fault,High Priority,True,True,1,22,False,18.666666666666668,68.33333333333333
+noisy,V08,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V08,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V09,normal,benign,Continue,False,False,0,0,True,,
+noisy,V09,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V09,hill_climb,benign,Continue,False,False,0,0,False,,
+noisy,V09,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V09,cooling_fault,fault,High Priority,True,True,1,13,False,9.0,74.33333333333333
+noisy,V09,mount_wear,fault,High Priority,True,False,2,0,False,6.333333333333333,
+noisy,V09,overheat_severe,fault,High Priority,True,True,1,32,False,6.833333333333333,38.333333333333336
+noisy,V09,battery_degradation,fault,High Priority,True,True,1,16,False,23.833333333333332,75.66666666666667
+noisy,V09,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V09,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V10,normal,benign,Continue,False,False,0,0,False,,
+noisy,V10,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V10,hill_climb,benign,Continue,False,True,0,14,False,,
+noisy,V10,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V10,cooling_fault,fault,High Priority,True,True,1,23,False,21.333333333333332,42.166666666666664
+noisy,V10,mount_wear,fault,High Priority,True,False,1,0,False,16.5,
+noisy,V10,overheat_severe,fault,High Priority,True,True,1,31,False,15.5,31.833333333333332
+noisy,V10,battery_degradation,fault,High Priority,True,True,1,25,False,16.833333333333332,62.166666666666664
+noisy,V10,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V10,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V11,normal,benign,Continue,False,False,0,0,False,,
+noisy,V11,pothole,benign,Continue,True,True,1,4,False,,
+noisy,V11,hill_climb,benign,Continue,False,True,0,10,True,,
+noisy,V11,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V11,cooling_fault,fault,High Priority,True,True,1,24,False,16.666666666666668,46.0
+noisy,V11,mount_wear,fault,High Priority,True,False,2,0,True,10.833333333333334,
+noisy,V11,overheat_severe,fault,High Priority,True,True,1,52,False,18.666666666666668,27.0
+noisy,V11,battery_degradation,fault,High Priority,True,True,1,17,False,20.666666666666668,73.66666666666667
+noisy,V11,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V11,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V12,normal,benign,Continue,False,False,0,0,False,,
+noisy,V12,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V12,hill_climb,benign,Continue,False,False,0,0,False,,
+noisy,V12,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V12,cooling_fault,fault,High Priority,True,True,1,13,False,10.5,67.16666666666667
+noisy,V12,mount_wear,fault,High Priority,True,False,1,0,False,17.5,
+noisy,V12,overheat_severe,fault,High Priority,True,True,1,18,False,7.5,67.5
+noisy,V12,battery_degradation,fault,High Priority,True,True,1,21,False,24.0,62.5
+noisy,V12,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V12,stuck_sensor,data,Monitor,True,False,1,0,False,,
+noisy,V13,normal,benign,Continue,False,False,0,0,False,,
+noisy,V13,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V13,hill_climb,benign,Continue,False,False,0,0,False,,
+noisy,V13,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V13,cooling_fault,fault,High Priority,True,True,1,10,False,16.833333333333332,52.333333333333336
+noisy,V13,mount_wear,fault,High Priority,True,False,1,0,True,9.5,
+noisy,V13,overheat_severe,fault,High Priority,True,True,1,20,False,7.333333333333333,57.166666666666664
+noisy,V13,battery_degradation,fault,High Priority,True,True,1,23,False,13.5,69.83333333333333
+noisy,V13,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V13,stuck_sensor,data,Monitor,False,False,0,0,True,,
+noisy,V14,normal,benign,Continue,False,False,0,0,False,,
+noisy,V14,pothole,benign,Continue,False,True,0,4,True,,
+noisy,V14,hill_climb,benign,Continue,False,False,0,0,False,,
+noisy,V14,hot_day,benign,Continue,False,False,0,0,True,,
+noisy,V14,cooling_fault,fault,High Priority,True,True,1,29,False,11.166666666666666,48.0
+noisy,V14,mount_wear,fault,High Priority,True,False,2,0,False,3.5,
+noisy,V14,overheat_severe,fault,High Priority,True,True,1,19,False,17.5,67.33333333333333
+noisy,V14,battery_degradation,fault,High Priority,True,True,1,18,False,12.833333333333334,70.0
+noisy,V14,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V14,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V15,normal,benign,Continue,False,False,0,0,False,,
+noisy,V15,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V15,hill_climb,benign,Continue,False,False,0,0,False,,
+noisy,V15,hot_day,benign,Monitor,False,False,0,0,False,,
+noisy,V15,cooling_fault,fault,High Priority,True,True,2,8,False,13.0,68.83333333333333
+noisy,V15,mount_wear,fault,High Priority,True,False,2,0,False,6.166666666666667,
+noisy,V15,overheat_severe,fault,High Priority,True,True,1,20,False,7.5,50.833333333333336
+noisy,V15,battery_degradation,fault,High Priority,True,True,1,30,False,12.333333333333334,57.666666666666664
+noisy,V15,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V15,stuck_sensor,data,Monitor,True,False,1,0,False,3.3333333333333335,
+noisy,V16,normal,benign,Continue,False,False,0,0,False,,
+noisy,V16,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V16,hill_climb,benign,Continue,False,True,0,14,False,,
+noisy,V16,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V16,cooling_fault,fault,High Priority,True,True,1,21,False,14.666666666666666,60.166666666666664
+noisy,V16,mount_wear,fault,High Priority,True,False,2,0,False,13.5,
+noisy,V16,overheat_severe,fault,High Priority,True,True,1,10,False,15.166666666666666,72.33333333333333
+noisy,V16,battery_degradation,fault,High Priority,True,True,1,25,False,16.833333333333332,63.333333333333336
+noisy,V16,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V16,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V17,normal,benign,Continue,False,False,0,0,True,,
+noisy,V17,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V17,hill_climb,benign,Continue,False,True,0,13,False,,
+noisy,V17,hot_day,benign,Continue,False,True,0,1,False,,
+noisy,V17,cooling_fault,fault,High Priority,True,True,1,29,False,12.333333333333334,40.333333333333336
+noisy,V17,mount_wear,fault,High Priority,True,False,1,0,False,8.333333333333334,
+noisy,V17,overheat_severe,fault,High Priority,True,True,1,29,False,11.333333333333334,52.666666666666664
+noisy,V17,battery_degradation,fault,High Priority,True,True,1,19,False,23.666666666666668,74.83333333333333
+noisy,V17,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V17,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V18,normal,benign,Continue,False,False,0,0,False,,
+noisy,V18,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V18,hill_climb,benign,Continue,False,True,0,17,False,,
+noisy,V18,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V18,cooling_fault,fault,High Priority,True,True,1,24,False,14.833333333333334,34.5
+noisy,V18,mount_wear,fault,High Priority,True,False,2,0,False,8.333333333333334,
+noisy,V18,overheat_severe,fault,High Priority,True,True,1,26,False,10.833333333333334,36.333333333333336
+noisy,V18,battery_degradation,fault,High Priority,True,True,1,25,False,17.333333333333332,61.166666666666664
+noisy,V18,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V18,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V19,normal,benign,Continue,True,False,1,0,False,,
+noisy,V19,pothole,benign,Continue,False,True,0,3,False,,
+noisy,V19,hill_climb,benign,Continue,False,False,0,0,False,,
+noisy,V19,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V19,cooling_fault,fault,High Priority,True,True,1,18,True,10.166666666666666,70.5
+noisy,V19,mount_wear,fault,High Priority,True,False,1,0,False,5.666666666666667,
+noisy,V19,overheat_severe,fault,High Priority,True,True,2,10,False,7.666666666666667,75.16666666666667
+noisy,V19,battery_degradation,fault,High Priority,True,True,1,22,False,23.0,69.5
+noisy,V19,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V19,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V20,normal,benign,Continue,False,False,0,0,False,,
+noisy,V20,pothole,benign,Continue,False,True,0,5,False,,
+noisy,V20,hill_climb,benign,Continue,False,True,0,1,False,,
+noisy,V20,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V20,cooling_fault,fault,High Priority,True,True,1,7,False,17.5,83.5
+noisy,V20,mount_wear,fault,High Priority,True,False,1,0,False,13.0,
+noisy,V20,overheat_severe,fault,High Priority,True,True,1,17,False,14.833333333333334,54.666666666666664
+noisy,V20,battery_degradation,fault,High Priority,True,True,1,24,False,22.833333333333332,66.33333333333333
+noisy,V20,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V20,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V21,normal,benign,Continue,False,False,0,0,False,,
+noisy,V21,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V21,hill_climb,benign,Continue,False,False,0,0,False,,
+noisy,V21,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V21,cooling_fault,fault,High Priority,True,True,1,15,False,18.333333333333332,71.5
+noisy,V21,mount_wear,fault,High Priority,True,False,1,0,False,11.5,
+noisy,V21,overheat_severe,fault,High Priority,True,True,1,22,False,14.333333333333334,60.5
+noisy,V21,battery_degradation,fault,High Priority,True,True,1,20,False,19.666666666666668,73.83333333333333
+noisy,V21,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V21,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V22,normal,benign,Continue,False,False,0,0,False,,
+noisy,V22,pothole,benign,Continue,False,True,0,5,False,,
+noisy,V22,hill_climb,benign,Continue,False,True,0,2,False,,
+noisy,V22,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V22,cooling_fault,fault,High Priority,True,True,1,16,False,7.333333333333333,60.5
+noisy,V22,mount_wear,fault,High Priority,True,False,1,0,False,15.666666666666666,
+noisy,V22,overheat_severe,fault,High Priority,True,True,1,30,False,10.333333333333334,38.5
+noisy,V22,battery_degradation,fault,High Priority,True,True,1,24,False,10.0,63.333333333333336
+noisy,V22,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V22,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V23,normal,benign,Continue,False,False,0,0,True,,
+noisy,V23,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V23,hill_climb,benign,Continue,False,False,0,0,False,,
+noisy,V23,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V23,cooling_fault,fault,High Priority,True,True,1,19,True,12.333333333333334,61.666666666666664
+noisy,V23,mount_wear,fault,High Priority,True,False,1,0,False,11.666666666666666,
+noisy,V23,overheat_severe,fault,High Priority,True,True,1,28,False,13.833333333333334,54.5
+noisy,V23,battery_degradation,fault,High Priority,True,True,1,23,False,22.333333333333332,68.16666666666667
+noisy,V23,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V23,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V24,normal,benign,Continue,False,False,0,0,False,,
+noisy,V24,pothole,benign,Continue,False,True,0,3,False,,
+noisy,V24,hill_climb,benign,Monitor,False,True,0,12,False,,
+noisy,V24,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V24,cooling_fault,fault,High Priority,True,True,2,24,False,8.166666666666666,64.0
+noisy,V24,mount_wear,fault,High Priority,True,False,1,0,False,12.833333333333334,
+noisy,V24,overheat_severe,fault,High Priority,True,True,1,16,False,9.666666666666666,34.5
+noisy,V24,battery_degradation,fault,High Priority,True,True,1,22,False,24.833333333333332,71.16666666666667
+noisy,V24,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V24,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V25,normal,benign,Continue,False,False,0,0,False,,
+noisy,V25,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V25,hill_climb,benign,Continue,False,False,0,0,False,,
+noisy,V25,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V25,cooling_fault,fault,High Priority,True,True,3,27,True,0.0,45.666666666666664
+noisy,V25,mount_wear,fault,High Priority,True,False,1,0,True,8.5,
+noisy,V25,overheat_severe,fault,High Priority,True,True,1,15,False,14.166666666666666,68.16666666666667
+noisy,V25,battery_degradation,fault,High Priority,True,True,1,21,False,25.333333333333332,66.33333333333333
+noisy,V25,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V25,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V26,normal,benign,Continue,False,False,0,0,False,,
+noisy,V26,pothole,benign,Continue,False,True,0,5,False,,
+noisy,V26,hill_climb,benign,Continue,False,True,0,11,False,,
+noisy,V26,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V26,cooling_fault,fault,High Priority,True,True,1,34,False,14.166666666666666,19.833333333333332
+noisy,V26,mount_wear,fault,High Priority,True,False,3,0,False,13.666666666666666,
+noisy,V26,overheat_severe,fault,High Priority,True,True,1,39,True,13.0,28.333333333333332
+noisy,V26,battery_degradation,fault,High Priority,True,True,1,20,False,19.166666666666668,69.5
+noisy,V26,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V26,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V27,normal,benign,Continue,False,False,0,0,False,,
+noisy,V27,pothole,benign,Continue,False,True,0,4,True,,
+noisy,V27,hill_climb,benign,Continue,False,False,0,0,False,,
+noisy,V27,hot_day,benign,Continue,False,False,0,0,True,,
+noisy,V27,cooling_fault,fault,High Priority,True,True,1,7,False,16.166666666666668,74.66666666666667
+noisy,V27,mount_wear,fault,High Priority,True,True,1,6,True,6.833333333333333,79.0
+noisy,V27,overheat_severe,fault,High Priority,True,True,1,14,True,12.833333333333334,66.0
+noisy,V27,battery_degradation,fault,High Priority,True,True,1,23,False,20.333333333333332,63.0
+noisy,V27,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V27,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V28,normal,benign,Continue,False,False,0,0,False,,
+noisy,V28,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V28,hill_climb,benign,Continue,False,False,0,0,False,,
+noisy,V28,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V28,cooling_fault,fault,High Priority,True,True,1,15,False,26.166666666666668,64.16666666666667
+noisy,V28,mount_wear,fault,High Priority,True,False,2,0,False,3.5,
+noisy,V28,overheat_severe,fault,High Priority,True,True,1,21,False,19.166666666666668,51.166666666666664
+noisy,V28,battery_degradation,fault,High Priority,True,True,1,18,False,20.666666666666668,76.16666666666667
+noisy,V28,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V28,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V29,normal,benign,Continue,False,False,0,0,False,,
+noisy,V29,pothole,benign,Continue,False,True,0,5,False,,
+noisy,V29,hill_climb,benign,Continue,False,False,0,0,False,,
+noisy,V29,hot_day,benign,Continue,False,False,0,0,False,,
+noisy,V29,cooling_fault,fault,High Priority,True,True,1,3,False,22.666666666666668,84.83333333333333
+noisy,V29,mount_wear,fault,High Priority,True,True,1,2,False,8.833333333333334,80.0
+noisy,V29,overheat_severe,fault,High Priority,True,True,2,27,False,11.5,59.5
+noisy,V29,battery_degradation,fault,High Priority,True,True,1,16,False,25.166666666666668,75.66666666666667
+noisy,V29,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V29,stuck_sensor,data,Monitor,False,False,0,0,False,,
+noisy,V30,normal,benign,Continue,False,False,0,0,False,,
+noisy,V30,pothole,benign,Continue,False,True,0,4,False,,
+noisy,V30,hill_climb,benign,Continue,False,True,0,6,False,,
+noisy,V30,hot_day,benign,Continue,False,True,0,1,True,,
+noisy,V30,cooling_fault,fault,High Priority,True,True,1,34,False,10.333333333333334,37.333333333333336
+noisy,V30,mount_wear,fault,High Priority,True,False,2,0,False,11.0,
+noisy,V30,overheat_severe,fault,High Priority,True,True,2,36,False,7.333333333333333,35.166666666666664
+noisy,V30,battery_degradation,fault,High Priority,True,True,1,18,False,18.333333333333332,75.16666666666667
+noisy,V30,sensor_dropout,data,DATA UNAVAILABLE,False,False,0,0,True,,
+noisy,V30,stuck_sensor,data,Monitor,False,False,0,0,False,,

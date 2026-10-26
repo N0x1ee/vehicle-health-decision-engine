@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# vehicle data can be personal (DPDP) - keep out of git
+logs/
+data/

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fleet Health</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#f5f6f8;--panel:#fff;--ink:#16202c;--muted:#64707d;--line:#e3e6ea;
+  --ok:#1f9d55;--mon:#c99a06;--insp:#e0701b;--high:#d1323b;--na:#6b7280;--accent:#2457d6;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f141a;--panel:#171e26;--ink:#e6ebf0;--muted:#93a0ad;--line:#26303b;
+  --ok:#34c472;--mon:#e5b622;--insp:#f08a3c;--high:#f0555d;--na:#8b95a1;--accent:#6b93ff;}}
+:root[data-theme="dark"]{--bg:#0f141a;--panel:#171e26;--ink:#e6ebf0;--muted:#93a0ad;--line:#26303b;
+  --ok:#34c472;--mon:#e5b622;--insp:#f08a3c;--high:#f0555d;--na:#8b95a1;--accent:#6b93ff;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--panel)}
+h1{font-size:17px;margin:0;letter-spacing:.2px}
+.sub{color:var(--muted);font-size:12px}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+button{font:inherit;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 12px;border-radius:8px;cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button:hover{filter:brightness(1.05)}
+.clock{font-variant-numeric:tabular-nums;font-weight:600}
+main{display:grid;grid-template-columns:minmax(300px,380px) 1fr;gap:16px;padding:16px 20px;max-width:1400px;margin:0 auto}
+@media (max-width:860px){main{grid-template-columns:1fr;padding:12px 16px}}
+.counts{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.count{font-size:12px;padding:3px 8px;border-radius:999px;border:1px solid var(--line);background:var(--panel)}
+.list{display:flex;flex-direction:column;gap:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:10px;padding:10px 12px;cursor:pointer}
+.card.sel{outline:2px solid var(--accent)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.vid{font-weight:700}
+.chip{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;color:#fff;background:var(--c);white-space:nowrap}
+.ev1{color:var(--muted);font-size:12px;margin-top:4px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.meta{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.big{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;margin-bottom:12px}
+.decision{font-size:26px;font-weight:800;color:var(--c)}
+.kpi .n{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.action{padding:10px 12px;border-radius:8px;background:color-mix(in srgb,var(--c) 12%,transparent);border:1px solid color-mix(in srgb,var(--c) 35%,transparent);margin-bottom:12px;font-weight:600}
+ul.ev{margin:0 0 14px;padding-left:18px}
+ul.ev li{margin:3px 0}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:700px){.charts{grid-template-columns:1fr}}
+.chart{border:1px solid var(--line);border-radius:10px;padding:8px;height:200px;position:relative}
+.chart h3{font-size:12px;margin:0 0 4px;color:var(--muted);font-weight:600}
+.chart canvas{position:absolute;inset:28px 8px 8px 8px}
+.strip{display:flex;height:10px;border-radius:5px;overflow:hidden;margin:6px 0 2px}
+.strip span{flex:1}
+.note{font-size:11px;color:var(--muted);margin-top:10px}
+.scen{font-size:12px;color:var(--muted);margin:-6px 0 10px}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Vehicle Health Decision Engine</h1>
+    <div class="sub">Fleet view · demo clock <span class="clock" id="clock">–</span></div>
+  </div>
+  <div class="controls">
+    <button id="play">▶ Auto-play</button>
+    <button class="primary" id="adv">+10 min</button>
+    <button id="reset">Reset demo</button>
+  </div>
+</header>
+<main>
+  <section>
+    <div class="counts" id="counts"></div>
+    <div class="list" id="list"></div>
+  </section>
+  <section class="panel" id="detail"><div class="sub">Select a vehicle</div></section>
+</main>
+<script>
+const COLORS={"Continue":"--ok","Monitor":"--mon","Inspect Soon":"--insp","High Priority":"--high","DATA UNAVAILABLE":"--na","CALIBRATING":"--na"};
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const col=d=>`var(${COLORS[d]||"--na"})`;
+let selected=null, timer=null, charts={};
+
+async function api(p,opt){const r=await fetch(p,opt);if(!r.ok)throw new Error(await r.text());return r.json();}
+
+async function loadFleet(){
+  const f=await api("/api/fleet");
+  document.getElementById("clock").textContent=f.clock?f.clock.slice(11,16):"–";
+  const order=["High Priority","Inspect Soon","DATA UNAVAILABLE","Monitor","Continue"];
+  document.getElementById("counts").innerHTML=order.filter(k=>f.counts[k]).map(k=>
+    `<span class="count" style="border-color:${col(k)}"><b style="color:${col(k)}">${f.counts[k]}</b> ${k}</span>`).join("");
+  if(!selected&&f.vehicles.length)selected=f.vehicles[0].vehicle_id;
+  document.getElementById("list").innerHTML=f.vehicles.map(v=>`
+    <div class="card ${v.vehicle_id===selected?"sel":""}" style="--c:${col(v.decision)}" data-id="${v.vehicle_id}">
+      <div class="row"><span class="vid">${v.vehicle_id}</span><span class="chip">${v.decision}</span></div>
+      <div class="row meta"><span>Health ${v.health??"–"}</span><span>Confidence ${v.confidence!=null?Math.round(v.confidence*100)+"%":"–"}</span></div>
+      <div class="ev1">${v.evidence[0]||""}</div>
+    </div>`).join("");
+  document.querySelectorAll(".card").forEach(c=>c.onclick=()=>{selected=c.dataset.id;loadFleet();});
+  if(selected)loadVehicle(selected);
+}
+
+function lineChart(id,labels,sets,yTitle){
+  const grid=css("--line"), ink=css("--muted");
+  const cfg={type:"line",data:{labels,datasets:sets},options:{animation:false,responsive:true,maintainAspectRatio:false,
+    interaction:{mode:"index",intersect:false},plugins:{legend:{display:false},tooltip:{enabled:true}},
+    elements:{point:{radius:0}},scales:{x:{ticks:{color:ink,maxTicksLimit:6},grid:{color:grid}},
+    y:{ticks:{color:ink},grid:{color:grid},title:{display:!!yTitle,text:yTitle,color:ink}}}}};
+  if(charts[id]){charts[id].data=cfg.data;charts[id].update();return;}
+  charts[id]=new Chart(document.getElementById(id),cfg);
+}
+
+function bandSets(s,key,c){
+  const band=css("--muted");
+  return [
+    {data:s[key+"_hi"],borderColor:"transparent",backgroundColor:band+"22",fill:"+1",label:"normal (high)"},
+    {data:s[key+"_lo"],borderColor:"transparent",backgroundColor:band+"22",fill:false,label:"normal (low)"},
+    {data:s[key],borderColor:c,borderWidth:1.6,label:"actual",spanGaps:false},
+  ];
+}
+
+async function loadVehicle(id){
+  const v=await api("/api/vehicles/"+id);
+  const d=document.getElementById("detail");
+  d.style.setProperty("--c",col(v.decision));
+  const s=v.series;
+  const first=!d.querySelector("#c_temp");
+  const pct=x=>x==null?"–":Math.round(x*100)+"%";
+  const head=`
+    <div class="big">
+      <div><div class="kpi"><div class="l">Vehicle ${v.vehicle_id}</div></div><div class="decision">${v.decision}</div></div>
+      <div class="kpi"><div class="n">${v.health??"–"}</div><div class="l">Health /100</div></div>
+      <div class="kpi"><div class="n">${v.risk??"–"}</div><div class="l">Risk</div></div>
+      <div class="kpi"><div class="n">${pct(v.confidence)}</div><div class="l">Confidence</div></div>
+    </div>
+    ${v.demo_scenario?`<div class="scen">Demo scenario: <b>${v.demo_scenario}</b> — ${v.demo_scenario_desc}</div>`:""}
+    <div class="action">${v.action}</div>
+    <b>Why</b><ul class="ev">${v.evidence.map(e=>`<li>${e}</li>`).join("")}</ul>
+    <div class="sub">Decision over the last 60 min</div>
+    <div class="strip">${(s?s.decision:[]).map(x=>`<span style="background:${col(x)}"></span>`).join("")}</div>`;
+  if(first){
+    d.innerHTML=`<div id="head"></div>
+      <div class="charts">
+        <div class="chart"><h3>Coolant temperature (°C) vs expected band</h3><canvas id="c_temp"></canvas></div>
+        <div class="chart"><h3>Vibration (g) vs expected band</h3><canvas id="c_vib"></canvas></div>
+        <div class="chart"><h3>Charging voltage (V) vs expected band</h3><canvas id="c_bat"></canvas></div>
+        <div class="chart"><h3>RPM instability (rpm std) vs normal limit</h3><canvas id="c_rpm"></canvas></div>
+      </div>
+      <div class="note">Shaded band = this vehicle's normal range for the current load, speed and ambient (expected ± 3σ). Decision support only — not a safety guarantee or a replacement for a mechanic's inspection.</div>`;
+  }
+  d.querySelector("#head").innerHTML=head;
+  if(!s)return;
+  lineChart("c_temp",s.t,bandSets(s,"coolant_temp",css("--insp")));
+  lineChart("c_vib",s.t,bandSets(s,"vibration",css("--accent")));
+  lineChart("c_bat",s.t,bandSets(s,"battery_v",css("--ok")));
+  lineChart("c_rpm",s.t,[
+    {data:s.t.map(()=>s.rpm_instability_hi),borderColor:css("--muted"),borderDash:[4,4],borderWidth:1,label:"normal limit"},
+    {data:s.rpm_instability,borderColor:css("--high"),borderWidth:1.6,label:"instability"}]);
+}
+
+document.getElementById("adv").onclick=async()=>{await api("/api/demo/advance",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({minutes:10})});loadFleet();};
+document.getElementById("reset").onclick=async()=>{await api("/api/demo/reset",{method:"POST"});loadFleet();};
+document.getElementById("play").onclick=e=>{
+  if(timer){clearInterval(timer);timer=null;e.target.textContent="▶ Auto-play";return;}
+  e.target.textContent="⏸ Pause";
+  timer=setInterval(async()=>{await api("/api/demo/advance",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({minutes:2})});loadFleet();},1500);
+};
+loadFleet();
+</script>
+</body>
+</html>
